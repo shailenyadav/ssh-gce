@@ -1,0 +1,23 @@
+    name: SSH to Google Cloud Platform compute instances
+
+      on:
+        push:
+          branches:
+            - main
+      
+      jobs:
+        deploy:
+          runs-on: ubuntu-latest
+          steps:
+            - name: SSH to Google Cloud Platform compute instances
+              uses: appleboy/ssh-action@master
+              with:
+                host: <instance_ip>
+                port: <ssh_port>
+                username: <key_user_name>
+                key: ${{ secrets.SSH_PRIVATE_KEY }}
+                instance-name: <instance_name>
+                zone: <instance_location>
+                script: |
+                  cd ~
+                  touch fromgithub.txt

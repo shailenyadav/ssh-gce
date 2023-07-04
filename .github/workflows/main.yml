@@ -1,23 +1,26 @@
-    name: SSH to Google Cloud Platform compute instances
+name: SSH to Google Cloud Platform compute instances  # SSH to GCP compute instances
 
-      on:
-        push:
-          branches:
-            - main
-      
-      jobs:
-        deploy:
-          runs-on: ubuntu-latest
-          steps:
-            - name: SSH to Google Cloud Platform compute instances
-              uses: appleboy/ssh-action@master
-              with:
-                host: <instance_ip>
-                port: <ssh_port>
-                username: <key_user_name>
-                key: ${{ secrets.SSH_PRIVATE_KEY }}
-                instance-name: <instance_name>
-                zone: <instance_location>
-                script: |
-                  cd ~
-                  touch fromgithub.txt
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Run on Ubuntu latest version
+
+    steps:
+      - name: SSH to Google Cloud Platform compute instances  # Step: SSH to GCP compute instances
+        uses: appleboy/ssh-action@master  # Use the appleboy/ssh-action GitHub Action
+
+        with:
+          host: <instance_ip>  # Specify the IP address of the instance
+          port: <ssh_port>  # Specify the SSH port
+          username: <key_user_name>  # Specify the username for authentication
+          key: ${{ secrets.SSH_PRIVATE_KEY }}  # Use the SSH private key stored as a secret
+          instance-name: <instance_name>  # Specify the instance name
+          zone: <instance_location>  # Specify the instance location (zone)
+
+          script: |
+            cd ~  # Change directory to the home directory
+            touch fromgithub.txt  # Create a file named fromgithub.txt
